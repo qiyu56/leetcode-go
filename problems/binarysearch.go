@@ -19,9 +19,9 @@ func search(nums []int, target int) int {
 	return -1
 }
 
-// 1 2 2 2 5
+// LeftBound 1 2 2 2 5
 // 找出2的左边界
-func Left_bound(nums []int, target int) int {
+func LeftBound(nums []int, target int) int {
 	left, right := 0, len(nums)-1
 	for left <= right { // 终止条件 left = right + 1
 		mid := left + (right-left)/2
@@ -39,7 +39,7 @@ func Left_bound(nums []int, target int) int {
 	return left
 }
 
-func Right_bound(nums []int, target int) int {
+func RightBound(nums []int, target int) int {
 	left, right := 0, len(nums)-1
 	for left <= right { // 终止条件 left = right + 1, 循环结束时 nums[left] != target，因为对left的更新一直是mid + 1
 		mid := left + (right-left)/2
@@ -59,9 +59,9 @@ func Right_bound(nums []int, target int) int {
 
 // 1 2 2 2 5
 
-// https://leetcode-cn.com/problems/find-first-and-last-position-of-element-in-sorted-array/
+// SearchRange https://leetcode-cn.com/problems/find-first-and-last-position-of-element-in-sorted-array/
 func SearchRange(nums []int, target int) []int {
-	left := Left_bound(nums, target)
-	right := Right_bound(nums, target)
+	left := LeftBound(nums, target)
+	right := RightBound(nums, target)
 	return []int{left, right}
 }

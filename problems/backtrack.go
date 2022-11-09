@@ -15,9 +15,7 @@ func Permute(nums []int) [][]int {
 
 func backTrack(nums, track []int) {
 	if len(track) == len(nums) {
-		backup := make([]int, len(track))
-		copy(backup, track)
-		res = append(res, backup)
+		res = append(res, track[:])
 		return
 	}
 
@@ -42,7 +40,7 @@ func contains(arr []int, e int) bool {
 
 var allMethod [][]string
 
-// https://leetcode-cn.com/problems/n-queens/
+// SolveNQueens https://leetcode-cn.com/problems/n-queens/
 func SolveNQueens(n int) [][]string {
 	allMethod = make([][]string, 0)
 	board := make([]int, n) // 第i行皇后放在board[i]列

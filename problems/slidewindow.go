@@ -1,6 +1,6 @@
 package problems
 
-// https://leetcode-cn.com/problems/minimum-window-substring/
+// MinWindow https://leetcode-cn.com/problems/minimum-window-substring/
 func MinWindow(s string, t string) string {
 	need, window := make(map[rune]int), make(map[rune]int)
 	// need: t中字符的个数
@@ -135,4 +135,66 @@ func lengthOfLongestSubstring(s string) int {
 		}
 	}
 	return res
+}
+
+func minWindow1(s, p string) string {
+	needs := make(map[byte]int)
+	window := make(map[byte]int)
+	for _, c := range p {
+		needs[byte(c)]++
+	}
+	left, right := 0, 0 // [left, right)
+	valid := 0
+	length := len(s) + 1
+	start := 0
+	for right < len(s) {
+		c := s[right]
+		right++
+		if _, ok := needs[c]; ok {
+			window[c]++
+			if window[c] == needs[c] {
+				valid++
+			}
+		}
+		// 先向右扩展，直至满足条件 right++
+		// 再从左侧开始缩小，寻找最优结果 left++
+		for len(needs) == valid {
+			if right-left < length {
+				length = right - left
+				start = left
+			}
+			d := s[left]
+			left++
+			if _, ok := needs[d]; ok {
+				if window[d] == needs[d] {
+					valid--
+				}
+				window[d]--
+			}
+		}
+	}
+	if length == len(s)+1 {
+		return ""
+	}
+	return s[start : start+length]
+}
+
+func lengthOfLongestSubstring1(s string) int {
+	window := make(map[byte]int)
+	left, right := 0, 0 // [left, right)
+	result := 0
+	for right < len(s) {
+		c := s[right]
+		right++
+		window[c]++
+		if window[c] > 1 { // 窗口中出现了重复元素，收缩
+			d := s[left]
+			left++
+			window[d]--
+		}
+		if right-left > result {
+			result = right - left
+		}
+	}
+	return result
 }
